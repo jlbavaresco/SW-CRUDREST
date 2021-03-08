@@ -1,12 +1,17 @@
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,6 +34,9 @@ public class Pessoa implements Serializable {
     private String nome;
     @Column(name = "telefone", nullable = false, length = 14)
     private String telefone;
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.EAGER, 
+            orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Pessoa() {
     }
@@ -80,6 +88,14 @@ public class Pessoa implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 
     
